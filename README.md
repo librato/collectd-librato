@@ -59,53 +59,40 @@ parameters via the <Module> config section in your Collectd config.
 
 The following parameters are required:
 
-* Email - The email address associated with your Librato Metrics
+* `Email` - The email address associated with your Librato Metrics
   account.
-* APIToken - The API token for you Librato Metrics account. This value
+* `APIToken` - The API token for you Librato Metrics account. This value
   can be found your [account page](https://metrics.librato.com/account).
 
 The following parameters are optional:
 
-* TypesDB - file(s) defining your Collectd types. This should be the
+* `TypesDB` - file(s) defining your Collectd types. This should be the
   sames as your TypesDB global config parameters. This will default to
   the file `/usr/share/collectd/types.db`. **NOTE**: This plugin will
   not work if it can't find the types.db file.
-* LowercaseMetricNames - If preset, all metric names will be converted
+* `LowercaseMetricNames` - If preset, all metric names will be converted
   to lower-case (default no lower-casing).
-* MetricPrefix - If present, all metric names will contain this string
+* `MetricPrefix` - If present, all metric names will contain this string
   prefix. Do not include a trailing period or separation character
-  (see MetricSeparator). Set to the empty string to disable any
+  (see `MetricSeparator`). Set to the empty string to disable any
   prefix. Defaults to "collectd".
-* MetricSeparator - String to separate the components of a metric name
+* `MetricSeparator` - String to separate the components of a metric name
   when combining the plugin name, type, and instance name. Defaults to
   a period (".").
-* IncludeSingleValueNames - Normally, any metric type listed in
+* `IncludeSingleValueNames` - Normally, any metric type listed in
   `types.db` that only has a single value will not have the name of
   the value suffixed onto the metric name. For most single value
   metrics the name is simply a placeholder like "value" or "count", so
   adding it to the metric name does not add any particular value. If
   `IncludeSingleValueNames` is set however, these value names will be
   suffixed onto the metric name regardless.
-* FlushIntervalSecs - This value determines how frequently metrics are
+* `FlushIntervalSecs` - This value determines how frequently metrics are
   flushed to Librato Metrics. For each collectd write request the
-  plugin will check if it has been FlushIntervalSecs seconds since the
+  plugin will check if it has been `FlushIntervalSecs` seconds since the
   last flush and if so will POST all metrics to Librato. Internally
   there is a hard limit on the maximum number of metrics that the
   plugin will buffer before a flush is forced which may supersede the
-  FlushIntervalSecs. The default FlushIntervalSecs is 30 seconds.
-
-## Supported Metrics
-
-Collectd-Librato currently supports the following collectd metric
-types:
-
-* GAUGE - Reported as a Librato Metric
-  [gauge](http://dev.librato.com/v1/gauges).
-* COUNTER - Reported as a Librato Metric
-  [counter](http://dev.librato.com/v1/counters).
-
-Other metric types are currently ignored. This list will be expanded
-in the future.
+  `FlushIntervalSecs`. The default flush interval is 30 seconds.
 
 ## Example
 
@@ -126,6 +113,19 @@ The following is an example Collectd configuration for this plugin:
             Email    "joe@example.com"
         </Module>
     </Plugin>
+
+## Supported Metrics
+
+Collectd-Librato currently supports the following collectd metric
+types:
+
+* GAUGE - Reported as a Librato Metric
+  [gauge](http://dev.librato.com/v1/gauges).
+* COUNTER - Reported as a Librato Metric
+  [counter](http://dev.librato.com/v1/counters).
+
+Other metric types are currently ignored. This list will be expanded
+in the future.
 
 # Operational Notes
 
