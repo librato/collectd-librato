@@ -28,8 +28,7 @@ from copy import copy
 # format of this line.
 version = "0.0.1"
 
-#config = { 'url' : 'https://metrics-api.librato.com/v1/metrics.json' }
-config = { 'url' : 'https://metrics-api-stg.librato.com/v1/metrics.json',
+config = { 'url' : 'https://metrics-api.librato.com/v1/metrics.json',
            'types_db' : '/usr/share/collectd/types.db',
            'metric_prefix' : 'collectd',
            'metric_separator' : '.',
