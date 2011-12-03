@@ -2,12 +2,12 @@
 
 collectd-librato is a [collectd](http://www.collectd.org/) plugin that
 publishes collectd values to [Librato
-Metrics][https://metrics.librato.com] using the Librato Metrics
-[API][http://dev.librato.com]. Librato Metrics is a hosted, time-series
-data service.
+Metrics](https://metrics.librato.com) using the Librato Metrics
+[API](http://dev.librato.com). Librato Metrics is a hosted,
+time-series data service.
 
 Collectd-librato was largely influenced by
-[collectd-carbon][https://github.com/indygreg/collectd-carbon].
+[collectd-carbon](https://github.com/indygreg/collectd-carbon).
 
 # Requirements
 
@@ -15,7 +15,7 @@ Collectd-librato was largely influenced by
   to fix the Python plugin - see below)
 * Python 2.4 or later
 * An active Librato Metrics account (sign up
-  [here][https://metrics.librato.com/sign_up]).
+  [here](https://metrics.librato.com/sign_up)).
 
 # Configuration
 
@@ -27,8 +27,7 @@ The following parameters are required:
 * Email - The email address associated with your Librato Metrics
   account.
 * APIToken - The API token for you Librato Metrics account. This value
-  can be found your [account
-  page][https://metrics.librato.com/account].
+  can be found your [account page](https://metrics.librato.com/account).
 
 The following parameters are optional:
 
@@ -66,9 +65,9 @@ Collectd-Librato currently supports the following collectd metric
 types:
 
 * GAUGE - Reported as a Librato Metric
-  [gauge][http://dev.librato.com/v1/gauges].
+  [gauge](http://dev.librato.com/v1/gauges).
 * COUNTER - Reported as a Librato Metric
-  [counter][http://dev.librato.com/v1/counters].
+  [counter](http://dev.librato.com/v1/counters).
 
 Other metric types are currently ignored. This list will be expanded
 in the future.
