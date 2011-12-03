@@ -24,6 +24,8 @@ import base64
 from string import maketrans
 from copy import copy
 
+# NOTE: This version is grepped from the Makefile, so don't change the
+# format of this line.
 version = "0.0.1"
 
 #config = { 'url' : 'https://metrics-api.librato.com/v1/metrics.json' }

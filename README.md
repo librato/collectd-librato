@@ -17,6 +17,41 @@ Collectd-librato was largely influenced by
 * An active Librato Metrics account (sign up
   [here](https://metrics.librato.com/sign_up)).
 
+# Installation
+
+Installation is provided by the Makefile included in the
+project. Simply clone this repository and run make install as root:
+
+```
+$ git clone git://github.com/librato/collectd-librato.git
+$ cd collectd-librato
+$ sudo make install
+Installed collected-librato plugin, add this
+to your collectd configuration to load this plugin:
+
+    <LoadPlugin "python">
+        Globals true
+    </LoadPlugin>
+
+    <Plugin "python">
+        # collectd-librato.py is at /opt/collectd-librato-0.0.1/lib/collectd-librato.py
+        ModulePath "/opt/collectd-librato-0.0.1/lib"
+
+        Import "collectd-librato"
+
+        <Module "collectd-librato">
+            APIToken "1985481910fe29ab201302011054857292"
+            Email    "joe@example.com"
+        </Module>
+    </Plugin>
+```
+
+The output above includes a sample configuration file for the
+plugin. Simply add this to `/etc/collectd.conf` or drop in the
+configuration directory as `/etc/collectd.d/librato.conf` and restart
+collectd. See the next section for an explanation of the plugin's
+configuration variables.
+
 # Configuration
 
 The plugin requires some configuration. This is done by passing
