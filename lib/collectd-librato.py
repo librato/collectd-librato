@@ -1,3 +1,18 @@
+# Copyright 2011 Librato, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 import collectd
 import errno
 import json
@@ -7,38 +22,30 @@ import os
 import sys
 import base64
 from string import maketrans
+from copy import copy
 
 version = "0.0.1"
 
 #config = { 'url' : 'https://metrics-api.librato.com/v1/metrics.json' }
-plugin_name = 'collectd-librato.py'
-config = { 'url' : 'http://localhost:9292/v1/metrics.json',
+config = { 'url' : 'https://metrics-api-stg.librato.com/v1/metrics.json',
            'types_db' : '/usr/share/collectd/types.db',
            'metric_prefix' : 'collectd',
            'metric_separator' : '.',
-           'flush_interval_secs' : 10,
+           'flush_interval_secs' : 30,
            'flush_max_measurements' : 600,
-           'flush_timeout_secs' : 15
+           'flush_timeout_secs' : 15,
+           'lower_case' : False,
+           'single_value_names' : False
            }
+plugin_name = 'Collectd-Librato.py'
 types = {}
 
-def build_user_agent():
-    try:
-        uname = os.uname()
-        system = "; ".join([uname[0], uname[4]])
-    except:
-        system = os.name()
+def str_to_num(s):
+    """
+    Convert type limits from strings to floats for arithmetic.
+    """
 
-    pver = sys.version_info
-    user_agent = 'Collectd-Librato.py/%s (%s) Python-Urllib2/%d.%d' % \
-                 (version, system, pver.major, pver.minor)
-    return user_agent
-
-def build_http_auth():
-    base64string = base64.encodestring('%s:%s' % \
-                                       (config['email'],
-                                        config['api_token']))[:-1]
-    return base64string
+    return float(s)
 
 def get_time():
     """
@@ -97,18 +104,53 @@ def librato_parse_types_file(path):
 
     f.close()
 
+def build_user_agent():
+    try:
+        uname = os.uname()
+        system = "; ".join([uname[0], uname[4]])
+    except:
+        system = os.name()
+
+    pver = sys.version_info
+    user_agent = '%s/%s (%s) Python-Urllib2/%d.%d' % \
+                 (plugin_name, version, system, pver.major, pver.minor)
+    return user_agent
+
+def build_http_auth():
+    base64string = base64.encodestring('%s:%s' % \
+                                       (config['email'],
+                                        config['api_token']))
+    return base64string.translate(None, '\n')
+
 def librato_config(c):
     global config
 
     for child in c.children:
+        val = child.values[0]
+
         if child.key == 'APIToken':
-            config['api_token'] = child.values[0]
+            config['api_token'] = val
         elif child.key == 'Email':
-            config['email'] = child.values[0]
+            config['email'] = val
         elif child.key == 'MetricPrefix':
-            config['metric_prefix'] = child.values[0]
+            config['metric_prefix'] = val
         elif child.key == 'TypesDB':
-            collectd.warning("typesdb = %s" % child.values[0])
+            config['types_db'] = val
+        elif child.key == 'MetricPrefix':
+            config['metric_prefix'] = val
+        elif child.key == 'MetricSeparator':
+            config['metric_separator'] = val
+        elif child.key == 'LowercaseMetricNames':
+            config['lower_case'] = True
+        elif child.key == 'IncludeSingleValueNames':
+            config['single_value_names'] = True
+        elif child.key == 'FlushIntervalSecs':
+            try:
+                config['flush_interval_secs'] = int(str_to_num(val))
+            except:
+                msg = '%s: Invalid value for FlushIntervalSecs: %s' % \
+                          (plugin_name, val)
+                raise Exception(msg)
 
     if not config.has_key('api_token'):
         raise Exception('APIToken not defined')
@@ -157,12 +199,11 @@ def librato_queue_measurements(gauges, counters, data):
     last_flush = curr_time - data['last_flush_time']
     length = len(data['gauges']) + len(data['counters'])
 
-    if last_flush < config['flush_interval_secs'] and \
-           length < config['flush_max_measurements']:
+    if (last_flush < config['flush_interval_secs'] and \
+           length < config['flush_max_measurements']) or \
+           length == 0:
         data['lock'].release()
         return
-
-    collectd.warning("flushing, last_flush: %d" % (last_flush))
 
     flush_gauges = data['gauges']
     flush_counters = data['counters']
@@ -205,11 +246,12 @@ def librato_write(v, data=None):
     gauges = []
     counters = []
 
-    i = 0
-    for value in v.values:
+    for i in range(len(v.values)):
+        value = v.values[i]
         ds_name = v_type[i][0]
         ds_type = v_type[i][1]
 
+        # We only support Gauges and Counters at this time
         if ds_type != 'GAUGE' and ds_type != 'COUNTER':
             continue
 
@@ -217,8 +259,16 @@ def librato_write(v, data=None):
         if value is None:
             continue
 
+        name_tuple = copy(name)
+        if len(v.values) > 1 or config['single_value_names']:
+            name_tuple.append(ds_name)
+
+        metric_name = config['metric_separator'].join(name_tuple)
+        if config['lower_case']:
+            metric_name = metric_name.lower()
+
         measurement = {
-            'name' : config['metric_separator'].join(name + [ds_name]),
+            'name' : metric_name,
             'source' : v.host,
             'measure_time' : int(v.time),
             'value' : value
@@ -234,7 +284,12 @@ def librato_write(v, data=None):
 def librato_init():
     import threading
 
-    librato_parse_types_file(config['types_db'])
+    try:
+        librato_parse_types_file(config['types_db'])
+    except:
+        msg = '%s: ERROR: Unable to open TypesDB file: %s.' % \
+              (plugin_name, config['types_db'])
+        raise Exception(msg)
 
     d = {
         'lock' : threading.Lock(),
