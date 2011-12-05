@@ -182,7 +182,8 @@ For example, the Collectd distribution has a built-in _df_ type:
 
 The *data_source* values for this type would be *used* and *free*
 yielding the metric names (along the lines of)
-*collectd.plugin.df.used* and *collectd.plugin.df.free*.
+*collectd.df.df.root.used* and *collectd.df.df.root.free* for the
+*root* file-system.
 
 # Troubleshooting
 
@@ -200,10 +201,10 @@ versions or have not applied the fix (which can be seen at
 <https://github.com/indygreg/collectd/commit/31bc4bc67f9ae12fb593e18e0d3649e5d4fa13f2>),
 you will likely dispatch wrong values to Librato Metrics.
 
-## Collectd 4.10.3 on EL5 ImportError
+## Collectd on Redhat ImportError
 
-Using the plugin with collectd on EPEL5 on RHEL or CentOS 5.x may
-produce the following error:
+Using the plugin with collectd on Redhat-based distributions (RHEL,
+CentOS, Fedora) may produce the following error:
 
     Jul 20 14:54:38 mon0 collectd[2487]: plugin_load_file: The global flag is not supported, libtool 2 is required for this.
     Jul 20 14:54:38 mon0 collectd[2487]: python plugin: Error importing module "collectd_librato".
@@ -246,5 +247,5 @@ As per the workarounds detailed there, you may either:
 # Contributing
 
 If you would like to contribute a fix or feature to this plugin please
-feel free to fork this repo, make your change and submit us a pull
+feel free to fork this repo, make your change and submit a pull
 request!
