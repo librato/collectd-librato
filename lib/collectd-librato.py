@@ -114,7 +114,7 @@ def build_user_agent():
 
     pver = sys.version_info
     user_agent = '%s/%s (%s) Python-Urllib2/%d.%d' % \
-                 (plugin_name, version, system, pver.major, pver.minor)
+                 (plugin_name, version, system, pver[0], pver[1])
     return user_agent
 
 def build_http_auth():
