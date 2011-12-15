@@ -34,8 +34,8 @@ to your collectd configuration to load this plugin:
     </LoadPlugin>
 
     <Plugin "python">
-        # collectd-librato.py is at /opt/collectd-librato-0.0.1/lib/collectd-librato.py
-        ModulePath "/opt/collectd-librato-0.0.1/lib"
+        # collectd-librato.py is at /opt/collectd-librato-0.0.3/lib/collectd-librato.py
+        ModulePath "/opt/collectd-librato-0.0.3/lib"
 
         Import "collectd-librato"
 
@@ -61,6 +61,7 @@ The following parameters are required:
 
 * `Email` - The email address associated with your Librato Metrics
   account.
+
 * `APIToken` - The API token for you Librato Metrics account. This value
   can be found your [account page](https://metrics.librato.com/account).
 
@@ -70,15 +71,19 @@ The following parameters are optional:
   sames as your TypesDB global config parameters. This will default to
   the file `/usr/share/collectd/types.db`. **NOTE**: This plugin will
   not work if it can't find the types.db file.
+
 * `LowercaseMetricNames` - If preset, all metric names will be converted
   to lower-case (default no lower-casing).
+
 * `MetricPrefix` - If present, all metric names will contain this string
   prefix. Do not include a trailing period or separation character
   (see `MetricSeparator`). Set to the empty string to disable any
   prefix. Defaults to "collectd".
+
 * `MetricSeparator` - String to separate the components of a metric name
   when combining the plugin name, type, and instance name. Defaults to
   a period (".").
+
 * `IncludeSingleValueNames` - Normally, any metric type listed in
   `types.db` that only has a single value will not have the name of
   the value suffixed onto the metric name. For most single value
@@ -86,6 +91,7 @@ The following parameters are optional:
   adding it to the metric name does not add any particular value. If
   `IncludeSingleValueNames` is set however, these value names will be
   suffixed onto the metric name regardless.
+
 * `FlushIntervalSecs` - This value determines how frequently metrics are
   flushed to Librato Metrics. For each collectd write request the
   plugin will check if it has been `FlushIntervalSecs` seconds since the
@@ -103,8 +109,8 @@ The following is an example Collectd configuration for this plugin:
     </LoadPlugin>
 
     <Plugin "python">
-        # collectd-librato.py is at /opt/collectd-librato-0.0.1/lib/collectd-librato.py
-        ModulePath "/opt/collectd-librato-0.0.1/lib"
+        # collectd-librato.py is at /opt/collectd-librato-0.0.3/lib/collectd-librato.py
+        ModulePath "/opt/collectd-librato-0.0.3/lib"
 
         Import "collectd-librato"
 
