@@ -252,8 +252,9 @@ def librato_write(v, data=None):
         ds_name = v_type[i][0]
         ds_type = v_type[i][1]
 
-        # We only support Gauges and Counters at this time
-        if ds_type != 'GAUGE' and ds_type != 'COUNTER':
+        # We only support Gauges, Counters and Derives at this time
+        if ds_type != 'GAUGE' and ds_type != 'COUNTER' and \
+               ds_type != 'DERIVE':
             continue
 
         # Can value be None?
