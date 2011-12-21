@@ -129,6 +129,8 @@ types:
   [gauge](http://dev.librato.com/v1/gauges).
 * COUNTER - Reported as a Librato Metric
   [counter](http://dev.librato.com/v1/counters).
+* DERIVE - Reported as a Librato Metric
+  [counter](http://dev.librato.com/v1/counters).
 
 Other metric types are currently ignored. This list will be expanded
 in the future.
