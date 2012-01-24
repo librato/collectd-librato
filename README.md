@@ -19,6 +19,11 @@ Collectd-librato was largely influenced by
 
 # Installation
 
+**NOTE:** If you are using Chef, there is now a [Chef
+cookbook](https://github.com/librato/collectd-librato-cookbook)
+available that will install and configure the collectd Librato
+plugin.
+
 Installation is provided by the Makefile included in the
 project. Simply clone this repository and run make install as root:
 
