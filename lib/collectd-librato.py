@@ -21,6 +21,7 @@ import time
 import os
 import sys
 import base64
+import math
 from string import maketrans
 from copy import copy
 
@@ -260,6 +261,11 @@ def librato_write(v, data=None):
 
         # Can value be None?
         if value is None:
+            continue
+
+        # Skip NaN values. These can be emitted from plugins like `tail`
+        # when there are no matches.
+        if math.isnan(value):
             continue
 
         name_tuple = copy(name)
