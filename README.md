@@ -39,8 +39,8 @@ to your collectd configuration to load this plugin:
     </LoadPlugin>
 
     <Plugin "python">
-        # collectd-librato.py is at /opt/collectd-librato-0.0.4/lib/collectd-librato.py
-        ModulePath "/opt/collectd-librato-0.0.4/lib"
+        # collectd-librato.py is at /opt/collectd-librato-0.0.5/lib/collectd-librato.py
+        ModulePath "/opt/collectd-librato-0.0.5/lib"
 
         Import "collectd-librato"
 
@@ -114,8 +114,8 @@ The following is an example Collectd configuration for this plugin:
     </LoadPlugin>
 
     <Plugin "python">
-        # collectd-librato.py is at /opt/collectd-librato-0.0.4/lib/collectd-librato.py
-        ModulePath "/opt/collectd-librato-0.0.4/lib"
+        # collectd-librato.py is at /opt/collectd-librato-0.0.5/lib/collectd-librato.py
+        ModulePath "/opt/collectd-librato-0.0.5/lib"
 
         Import "collectd-librato"
 
