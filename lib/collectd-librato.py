@@ -181,8 +181,9 @@ def librato_flush_metrics(gauges, counters, data):
         response = f.read()
         f.close()
     except urllib2.HTTPError as error:
-        collectd.warning('%s: Failed to send metrics to Librato (code %d)' % \
-                         (plugin_name, error.code))
+        body = error.read()
+        collectd.warning('%s: Failed to send metrics to Librato: Code: %d. Response: %s' % \
+                         (plugin_name, error.code, body))
     except IOError as error:
         collectd.warning('%s: Error when sending metrics Librato (%s)' % \
                          (plugin_name, error.reason))
