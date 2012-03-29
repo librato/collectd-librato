@@ -19,12 +19,30 @@ Collectd-librato was largely influenced by
 
 # Installation
 
-**NOTE:** If you are using Chef, there is now a [Chef
-cookbook](https://github.com/librato/collectd-librato-cookbook)
-available that will install and configure the collectd Librato
-plugin.
+## Using Chef
 
-Installation is provided by the Makefile included in the
+If you are using Chef, there is now a [Chef
+cookbook](https://github.com/librato/collectd-librato-cookbook)
+available that will install and configure the collectd Librato plugin.
+
+## RHEL / CentOS 5.x RPMs
+
+[Eric-Olivier Lamey](https://github.com/eolamey) provides RPM packages
+for the collectd-librato plugin on RHEL/CentOS 5.x distributions using
+his [pakk repo](https://github.com/eolamey/pakk). RHEL/CentOS 6
+support is planned.
+
+To install collectd-librato from the pakk repo:
+
+1. Make sure you have the EPEL repository [configured](http://fedoraproject.org/wiki/EPEL).
+1. Enable the [pakk
+repository](http://pakk.96b.it/repositories/el5/). As root do: `wget -O  /etc/yum.repos.d/pakk.repo http://pakk.96b.it/pakk.repo`
+1. Install the plugin. As root do: `yum install collectd-librato`
+1. Configure the `/etc/collectd.d/librato.conf` file as described below.
+
+## From Source
+
+Installation from source is provided by the Makefile included in the
 project. Simply clone this repository and run make install as root:
 
 ```
@@ -56,6 +74,8 @@ plugin. Simply add this to `/etc/collectd.conf` or drop in the
 configuration directory as `/etc/collectd.d/librato.conf` and restart
 collectd. See the next section for an explanation of the plugin's
 configuration variables.
+
+
 
 # Configuration
 
