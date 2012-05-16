@@ -11,9 +11,10 @@ Collectd-librato was largely influenced by
 
 # Requirements
 
-* Collectd 4.9 or later (for the Python plugin) (A patch may be required
-  to fix the Python plugin - see below)
-* Python 2.4 or later
+* Collectd versions 4.9.5, 4.10.3, and 5.0.0 (or later). Earlier
+  versions of 4.9.x and 4.10.x may require a patch to fix the Python
+  plugin in collectd (See below).
+* Python 2.6 or later.
 * An active Librato Metrics account (sign up
   [here](https://metrics.librato.com/sign_up)).
 
