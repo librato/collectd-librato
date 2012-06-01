@@ -33,6 +33,7 @@ config = { 'url' : 'https://metrics-api.librato.com/v1/metrics',
            'types_db' : '/usr/share/collectd/types.db',
            'metric_prefix' : 'collectd',
            'metric_separator' : '.',
+           'source' : None,
            'flush_interval_secs' : 30,
            'flush_max_measurements' : 600,
            'flush_timeout_secs' : 15,
@@ -146,6 +147,8 @@ def librato_config(c):
             config['lower_case'] = True
         elif child.key == 'IncludeSingleValueNames':
             config['single_value_names'] = True
+        elif child.key == 'Source':
+            config['source'] = val
         elif child.key == 'FlushIntervalSecs':
             try:
                 config['flush_interval_secs'] = int(str_to_num(val))
@@ -218,7 +221,7 @@ def librato_queue_measurements(gauges, counters, data):
     librato_flush_metrics(flush_gauges, flush_counters, data)
 
 def librato_write(v, data=None):
-    global plugin_name, types
+    global plugin_name, types, config
 
     if v.type not in types:
         collectd.warning('%s: do not know how to handle type %s. ' \
@@ -249,6 +252,10 @@ def librato_write(v, data=None):
     gauges = []
     counters = []
 
+    srcname = config['source']
+    if srcname == None:
+        srcname = v.host
+
     for i in range(len(v.values)):
         value = v.values[i]
         ds_name = v_type[i][0]
@@ -278,7 +285,7 @@ def librato_write(v, data=None):
 
         measurement = {
             'name' : metric_name,
-            'source' : v.host,
+            'source' : srcname,
             'measure_time' : int(v.time),
             'value' : value
             }
