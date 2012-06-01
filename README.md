@@ -125,6 +125,11 @@ The following parameters are optional:
   plugin will buffer before a flush is forced which may supersede the
   `FlushIntervalSecs`. The default flush interval is 30 seconds.
 
+* `Source` - By default the source name is taken from the configured
+  collectd hostname. If you want to override the source name that is
+  used with Librato Metrics you can set the `Source` variable to a
+  different source name.
+
 ## Example
 
 The following is an example Collectd configuration for this plugin:
