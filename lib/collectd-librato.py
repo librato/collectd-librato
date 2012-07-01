@@ -290,6 +290,8 @@ def librato_write(v, data=None):
         regexed = len(regexs) == 0
         for regex in regexs:
           regexed = regexed or re.match(regex, metric_name)
+          if regexed:
+            break
         
         if not regexed:
           continue
