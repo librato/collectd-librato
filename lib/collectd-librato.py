@@ -287,13 +287,13 @@ def librato_write(v, data=None):
             metric_name = metric_name.lower()
         
         regexs = config.get('regex', [])
-        regexed = len(regexs) == 0
+        matches = len(regexs) == 0
         for regex in regexs:
-          regexed = regexed or re.match(regex, metric_name)
-          if regexed:
+          if re.match(regex, metric_name):
+            matches = True
             break
         
-        if not regexed:
+        if not matches:
           continue
 
         measurement = {
