@@ -22,6 +22,7 @@ import os
 import sys
 import base64
 import math
+import re
 from string import maketrans
 from copy import copy
 
@@ -149,6 +150,8 @@ def librato_config(c):
             config['single_value_names'] = True
         elif child.key == 'Source':
             config['source'] = val
+        elif child.key == 'Regex':
+            config['regex'] = val.split(',') if val else []
         elif child.key == 'FlushIntervalSecs':
             try:
                 config['flush_interval_secs'] = int(str_to_num(val))
@@ -282,6 +285,13 @@ def librato_write(v, data=None):
         metric_name = config['metric_separator'].join(name_tuple)
         if config['lower_case']:
             metric_name = metric_name.lower()
+        
+        regexed = config['regex'] == 0
+        for regex in config['regex']:
+          regexed = regexed or re.match(regex, metric_name)
+        
+        if not regexed:
+          continue
 
         measurement = {
             'name' : metric_name,
