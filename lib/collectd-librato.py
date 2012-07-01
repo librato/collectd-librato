@@ -286,8 +286,9 @@ def librato_write(v, data=None):
         if config['lower_case']:
             metric_name = metric_name.lower()
         
-        regexed = config['regex'] == 0
-        for regex in config['regex']:
+        regexs = config.get('regex', [])
+        regexed = len(regexs) == 0
+        for regex in regexs:
           regexed = regexed or re.match(regex, metric_name)
         
         if not regexed:
