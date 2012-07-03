@@ -28,7 +28,7 @@ from copy import copy
 
 # NOTE: This version is grepped from the Makefile, so don't change the
 # format of this line.
-version = "0.0.6"
+version = "0.0.7"
 
 config = { 'url' : 'https://metrics-api.librato.com/v1/metrics',
            'types_db' : '/usr/share/collectd/types.db',
