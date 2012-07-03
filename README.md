@@ -117,13 +117,19 @@ The following parameters are optional:
   `IncludeSingleValueNames` is set however, these value names will be
   suffixed onto the metric name regardless.
 
-* `FlushIntervalSecs` - This value determines how frequently metrics are
-  flushed to Librato Metrics. For each collectd write request the
-  plugin will check if it has been `FlushIntervalSecs` seconds since the
-  last flush and if so will POST all metrics to Librato. Internally
-  there is a hard limit on the maximum number of metrics that the
-  plugin will buffer before a flush is forced which may supersede the
-  `FlushIntervalSecs`. The default flush interval is 30 seconds.
+* `FlushIntervalSecs` - This value determines how frequently metrics
+  are posted to the Librato Metrics API. This **does not** control how
+  frequently metrics are collected; that is controlled by the collectd
+  option [`Interval`](http://collectd.org/wiki/index.php/Interval).
+  Each interval period that collectd reads metrics, the Librato plugin
+  will calculate how long it has been since the last flush to Librato
+  Metrics and will POST all collected metrics to Librato if it has
+  been longer than `FlushIntervalSecs` seconds.
+
+  Internally there is a hard limit on the maximum number of metrics
+  that the plugin will buffer before a flush is forced. This may
+  supersede the `FlushIntervalSecs`. The default flush interval is 30
+  seconds.
 
 * `Source` - By default the source name is taken from the configured
   collectd hostname. If you want to override the source name that is
