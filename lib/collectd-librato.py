@@ -30,7 +30,8 @@ from copy import copy
 # format of this line.
 version = "0.0.7"
 
-config = { 'url' : 'https://metrics-api.librato.com/v1/metrics',
+config = { 'api_path' : '/v1/metrics',
+           'api' : 'https://metrics-api.librato.com'
            'types_db' : '/usr/share/collectd/types.db',
            'metric_prefix' : 'collectd',
            'metric_separator' : '.',
@@ -138,6 +139,8 @@ def librato_config(c):
             config['email'] = val
         elif child.key == 'MetricPrefix':
             config['metric_prefix'] = val
+        elif child.key == 'Api':
+            config['api'] = val
         elif child.key == 'TypesDB':
             config['types_db'] = val
         elif child.key == 'MetricPrefix':
@@ -182,7 +185,8 @@ def librato_flush_metrics(gauges, counters, data):
 
     body = json.dumps({ 'gauges' : gauges, 'counters' : counters })
 
-    req = urllib2.Request(config['url'], body, headers)
+    url = "%s%s" % (config['api'], config['api_path'])
+    req = urllib2.Request(url, body, headers)
     try:
         f = urllib2.urlopen(req, timeout = config['flush_timeout_secs'])
         response = f.read()
