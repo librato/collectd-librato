@@ -130,6 +130,16 @@ The following parameters are optional:
   used with Librato Metrics you can set the `Source` variable to a
   different source name.
 
+* `IncludeRegex` - This option can be used to control the metrics that
+  are sent to Librato Metrics. It should be set to a comma-separated
+  list of regular expression patterns to match metric names
+  against. If a metric name does not match one of the regex's in this
+  variable, it will not be sent to Librato Metrics. By default, all
+  metrics in collectd are sent to Librato Metrics. For example, the
+  following restricts the set of metrics to CPU and select df metrics:
+
+      IncludeRegex "collectd.cpu.*,collectd.df.df.dev.free,collectd.df.df.root.free"
+
 ## Example
 
 The following is an example Collectd configuration for this plugin:
