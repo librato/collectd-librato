@@ -144,7 +144,7 @@ The following parameters are optional:
   metrics in collectd are sent to Librato Metrics. For example, the
   following restricts the set of metrics to CPU and select df metrics:
 
-      IncludeRegex "collectd.cpu.*,collectd.df.df.dev.free,collectd.df.df.root.free"
+  `IncludeRegex "collectd.cpu.*,collectd.df.df.dev.free,collectd.df.df.root.free"`
 
 ## Example
 
