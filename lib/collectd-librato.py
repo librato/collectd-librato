@@ -31,7 +31,7 @@ from copy import copy
 version = "0.0.7"
 
 config = { 'api_path' : '/v1/metrics',
-           'api' : 'https://metrics-api.librato.com'
+           'api' : 'https://metrics-api.librato.com',
            'types_db' : '/usr/share/collectd/types.db',
            'metric_prefix' : 'collectd',
            'metric_separator' : '.',
