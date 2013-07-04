@@ -40,6 +40,55 @@ repository](http://pakk.96b.it/repositories/). As root do: `wget -O  /etc/yum.re
 1. Install the plugin. As root do: `yum install collectd-librato`
 1. Configure the `/etc/collectd.d/librato.conf` file as described below.
 
+If you have a `/etc/collectd5.conf` file it should probably contain something like the following:
+```
+BaseDir     "/var/lib/collectd5"
+PIDFile     "/var/run/collectd5.pid"
+TypesDB     "/usr/share/collectd5/types.db"
+LoadPlugin syslog
+LoadPlugin cpu
+LoadPlugin interface
+LoadPlugin load
+LoadPlugin memory
+<LoadPlugin "python">
+  Globals true
+</LoadPlugin>
+<Plugin "python">
+  ModulePath "/usr/lib64/collectd/python"
+  Import "collectd-librato"
+  <Module "collectd-librato">
+    APIToken "EMAIL_ADDRESS"
+    Email    "LIBRATO_API_TOKEN"
+  </Module>
+</Plugin>
+
+```
+
+## Troublshooting
+Check the logs: `/var/log/messages` or `/var/log/syslog`, etc.
+
+`Starting collectd5: Could not find plugin rrdtool.`
+
+The collectd daemon has been configured to load the collectd plugin named "rrdtool" but it can't find it.
+If you are only sending data to Librato this can be safely ignored and
+the `LoadPlugin rrdtool` statement in the collectd configuration can be removed.
+
+
+```
+Unhandled python exception in init callback: Exception: Collectd-Librato.py: ERROR: Unable to open TypesDB file: /usr/share/collectd/types.db.
+plugin_dispatch_values: No write callback has been registered. Please load at least one output plugin, if you want the collected data to be stored.
+Filter subsystem: Built-in target `write': Dispatching value to all write plugins failed with status 2 (ENOENT). Most likely this means you didn't load any write plugins.
+```
+
+The collectd daemon plugin for librato could not find a file that it needs.
+This file is probably present but in a different location. Try the following:
+
+```
+cd /usr/share
+ln -s collectd5 collectd
+```
+
+
 ## From Source
 
 Installation from source is provided by the Makefile included in the
