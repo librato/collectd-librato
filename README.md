@@ -64,7 +64,7 @@ LoadPlugin memory
 
 ```
 
-## Troublshooting
+## Troubleshooting
 Check the logs: `/var/log/messages` or `/var/log/syslog`, etc.
 
 `Starting collectd5: Could not find plugin rrdtool.`
