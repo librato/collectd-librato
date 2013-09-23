@@ -57,8 +57,8 @@ LoadPlugin memory
   ModulePath "/usr/lib64/collectd/python"
   Import "collectd-librato"
   <Module "collectd-librato">
-    APIToken "EMAIL_ADDRESS"
-    Email    "LIBRATO_API_TOKEN"
+    Email    "LIBRATO_EMAIL_ADDRESS"
+    APIToken "LIBRATO_API_TOKEN"
   </Module>
 </Plugin>
 
@@ -112,8 +112,8 @@ to your collectd configuration to load this plugin:
         Import "collectd-librato"
 
         <Module "collectd-librato">
-            APIToken "1985481910fe29ab201302011054857292"
             Email    "joe@example.com"
+            APIToken "1985481910fe29ab201302011054857292"
         </Module>
     </Plugin>
 ```
@@ -210,8 +210,8 @@ The following is an example Collectd configuration for this plugin:
         Import "collectd-librato"
 
         <Module "collectd-librato">
-            APIToken "1985481910fe29ab201302011054857292"
             Email    "joe@example.com"
+            APIToken "1985481910fe29ab201302011054857292"
         </Module>
     </Plugin>
 

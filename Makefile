@@ -20,7 +20,7 @@ install:
 	@echo '        Import "collectd-librato"'
 	@echo
 	@echo '        <Module "collectd-librato">'
-	@echo '            APIToken "1985481910fe29ab201302011054857292"'
 	@echo '            Email    "joe@example.com"'
+	@echo '            APIToken "1985481910fe29ab201302011054857292"'
 	@echo '        </Module>'
 	@echo '    </Plugin>'
