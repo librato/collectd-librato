@@ -282,6 +282,10 @@ def librato_write(v, data=None):
         if math.isnan(value):
             continue
 
+        # Skip counter values that are negative.
+        if ds_type != 'GAUGE' and value < 0:
+            continue
+
         name_tuple = copy(name)
         if len(v.values) > 1 or config['single_value_names']:
             name_tuple.append(ds_name)
