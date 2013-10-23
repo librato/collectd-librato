@@ -293,16 +293,16 @@ def librato_write(v, data=None):
         metric_name = config['metric_separator'].join(name_tuple)
         if config['lower_case']:
             metric_name = metric_name.lower()
-        
+
         regexs = config.get('include_regex', [])
         matches = len(regexs) == 0
         for regex in regexs:
-          if re.match(regex, metric_name):
-            matches = True
-            break
-        
+            if re.match(regex, metric_name):
+                matches = True
+                break
+
         if not matches:
-          continue
+            continue
 
         measurement = {
             'name' : metric_name,
