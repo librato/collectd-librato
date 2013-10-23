@@ -282,6 +282,10 @@ def librato_write(v, data=None):
         if math.isnan(value):
             continue
 
+        # Skip counter values that are negative.
+        if ds_type != 'GAUGE' and value < 0:
+            continue
+
         name_tuple = copy(name)
         if len(v.values) > 1 or config['single_value_names']:
             name_tuple.append(ds_name)
@@ -289,16 +293,16 @@ def librato_write(v, data=None):
         metric_name = config['metric_separator'].join(name_tuple)
         if config['lower_case']:
             metric_name = metric_name.lower()
-        
+
         regexs = config.get('include_regex', [])
         matches = len(regexs) == 0
         for regex in regexs:
-          if re.match(regex, metric_name):
-            matches = True
-            break
-        
+            if re.match(regex, metric_name):
+                matches = True
+                break
+
         if not matches:
-          continue
+            continue
 
         measurement = {
             'name' : metric_name,
