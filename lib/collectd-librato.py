@@ -151,6 +151,8 @@ def librato_config(c):
             config['lower_case'] = True
         elif child.key == 'IncludeSingleValueNames':
             config['single_value_names'] = True
+        elif child.key == 'FloorTimeSecs':
+            config['floor_time_secs'] = val
         elif child.key == 'Source':
             config['source'] = val
         elif child.key == 'IncludeRegex':
@@ -304,10 +306,16 @@ def librato_write(v, data=None):
         if not matches:
             continue
 
+        # Floor measure time?
+        m_time = int(v.time)
+        if config['floor_time_secs']:
+            m_time /= config['floor_time_secs']
+            m_time *= config['floor_time_secs']
+
         measurement = {
             'name' : metric_name,
             'source' : srcname,
-            'measure_time' : int(v.time),
+            'measure_time' : m_time,
             'value' : value
             }
 
