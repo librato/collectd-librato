@@ -195,6 +195,13 @@ The following parameters are optional:
 
   `IncludeRegex "collectd.cpu.*,collectd.df.df.dev.free,collectd.df.df.root.free"`
 
+* `FloorTimeSecs` - Set the time interval (in seconds) to floor all
+  measurement times to. This will ensure that the real-time samples on
+  graphs will align on the time interval boundary across multiple
+  collectd hosts. By default, measurement times are not floored and use
+  the exact timestamp emitted from collectd. This value should be set
+  to the same `Interval` defined in the main *collectd.conf*.
+
 ## Example
 
 The following is an example Collectd configuration for this plugin:
