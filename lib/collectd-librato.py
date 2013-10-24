@@ -28,7 +28,7 @@ from copy import copy
 
 # NOTE: This version is grepped from the Makefile, so don't change the
 # format of this line.
-version = "0.0.8"
+version = "0.0.9"
 
 config = { 'api_path' : '/v1/metrics',
            'api' : 'https://metrics-api.librato.com',
