@@ -152,7 +152,7 @@ def librato_config(c):
         elif child.key == 'IncludeSingleValueNames':
             config['single_value_names'] = True
         elif child.key == 'FloorTimeSecs':
-            config['floor_time_secs'] = val
+            config['floor_time_secs'] = int(val)
         elif child.key == 'Source':
             config['source'] = val
         elif child.key == 'IncludeRegex':
