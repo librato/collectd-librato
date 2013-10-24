@@ -237,6 +237,74 @@ types:
 Other metric types are currently ignored. This list will be expanded
 in the future.
 
+# Simpler CPU metrics
+
+Collectd's CPU plugin will, by default, break out each CPU's
+individual user, system, wait, etc. time as an individual metric. In
+total there are eight different CPU times, so for a box with 24 cores
+there will be 24 * 8 => 192 metrics published. In most cases you don't
+actually need the granularity that the breakout provides, you simply
+want to know user time vs. idle time, etc.
+
+With collectd release 5.2 there is now an
+[aggregation](https://collectd.org/wiki/index.php/Plugin:Aggregation)
+plugin that can aggregate across collectd metrics before they are sent
+on to the write plugins (and on to Librato). To use this plugin we
+follow the [example
+configuration](https://collectd.org/wiki/index.php/Plugin:Aggregation/Config)
+for aggregating CPU metrics across a host. Add the following to your
+collectd.conf:
+
+```
+LoadPlugin aggregation
+
+<Plugin "aggregation">
+  <Aggregation>
+    Plugin "cpu"
+    Type "cpu"
+
+    GroupBy "Host"
+    GroupBy "TypeInstance"
+
+    CalculateSum true
+    CalculateAverage true
+  </Aggregation>
+</Plugin>
+```
+
+This will compute the sum and average of each CPU timing metric across
+all CPUs. The metrics will be sent as:
+*collectd.aggregation.cpu-sum.cpu.idle*,
+*collectd.aggregation.cpu-sum.cpu.wait*, etc.
+
+Once you have that working, the next step is to drop the breakout CPU
+metrics from posting to your account. You can use the collectd
+[chains](https://collectd.org/wiki/index.php/Chains) feature to filter
+out the CPU metrics by adding the following to your collectd.conf:
+
+```
+LoadPlugin match_regex
+
+<Chain "PostCache">
+  <Rule "ignore_cpu" > # Send "cpu" values to the aggregation plugin.
+    <Match "regex">
+      Plugin "^cpu$"
+    </Match>
+    <Target "write">
+      Plugin "aggregation"
+    </Target>
+    Target stop
+  </Rule>
+  Target "write"
+
+</Chain>
+```
+
+Once you have this setup, create an instrument that stacks the eight
+aggregated CPU timing metrics to get a break out of CPU performance:
+
+![CPU Instrument](https://s3.amazonaws.com/librato-mike/images/Selection_238.png)
+
 # Operational Notes
 
 This plugin uses a best-effort attempt to deliver metrics to Librato
