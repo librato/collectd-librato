@@ -308,7 +308,7 @@ def librato_write(v, data=None):
 
         # Floor measure time?
         m_time = int(v.time)
-        if config['floor_time_secs']:
+        if config.has_key('floor_time_secs'):
             m_time /= config['floor_time_secs']
             m_time *= config['floor_time_secs']
 
