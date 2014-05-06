@@ -131,6 +131,11 @@ configuration variables.
 The plugin requires some configuration. This is done by passing
 parameters via the <Module> config section in your Collectd config.
 
+To control the frequency (resolution) of metrics sent by collectd to
+Librato, you must update the collectd option
+[`Interval`](http://collectd.org/wiki/index.php/Interval) specified
+in the global *collectd.conf* file to the desired resolution in seconds.
+
 The following parameters are required:
 
 * `Email` - The email address associated with your Librato Metrics
@@ -165,20 +170,6 @@ The following parameters are optional:
   adding it to the metric name does not add any particular value. If
   `IncludeSingleValueNames` is set however, these value names will be
   suffixed onto the metric name regardless.
-
-* `FlushIntervalSecs` - This value determines how frequently metrics
-  are posted to the Librato Metrics API. This **does not** control how
-  frequently metrics are collected; that is controlled by the collectd
-  option [`Interval`](http://collectd.org/wiki/index.php/Interval).
-  Each interval period that collectd reads metrics, the Librato plugin
-  will calculate how long it has been since the last flush to Librato
-  Metrics and will POST all collected metrics to Librato if it has
-  been longer than `FlushIntervalSecs` seconds.
-
-  Internally there is a hard limit on the maximum number of metrics
-  that the plugin will buffer before a flush is forced. This may
-  supersede the `FlushIntervalSecs`. The default flush interval is 30
-  seconds.
 
 * `Source` - By default the source name is taken from the configured
   collectd hostname. If you want to override the source name that is
