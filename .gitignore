@@ -2,3 +2,10 @@
 
 # vagrant
 .vagrant
+
+# packer
+iso
+*.box
+packer_cache
+*.pem
+variables.json

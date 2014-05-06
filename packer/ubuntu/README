@@ -1,0 +1,13 @@
+Setup:
+
+http://www.packer.io/   # install 0.6.0
+http://www.vagrantup.com/ # install 1.5.4
+https://www.virtualbox.org/ # install 4.3.10
+
+To create a vagrant box:
+
+# using collectd-librato-ubuntu-12.04 as an example
+
+packer build -only=virtualbox-iso collectd-librato-ubuntu-12.04.json
+(optional: vagrant box remove collectd-librato-ubuntu-12.04)
+vagrant box add collectd-librato-ubuntu-12.04.4-0 collectd-librato-ubuntu-12.04.4-0.box
