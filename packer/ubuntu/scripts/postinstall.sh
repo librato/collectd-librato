@@ -40,6 +40,13 @@ wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/key
 chmod 600 /home/vagrant/.ssh/authorized_keys
 chown -R vagrant /home/vagrant/.ssh
 
+# rvm
+curl -sSL https://get.rvm.io | bash -s stable
+usermod --append --groups rvm vagrant
+RVM=/usr/local/rvm/bin/rvm
+$RVM install ruby-2.0.0-p353
+$RVM alias create default ruby-2.0.0-p353
+
 # Zero out the free space to save space in the final image:
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
