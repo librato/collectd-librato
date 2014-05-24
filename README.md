@@ -92,7 +92,9 @@ ln -s collectd5 collectd
 ## From Source
 
 Installation from source is provided by the Makefile included in the
-project. Simply clone this repository and run make install as root:
+project.
+
+Simply clone this repository and run make install as root:
 
 ```
 $ git clone git://github.com/librato/collectd-librato.git
