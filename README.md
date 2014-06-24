@@ -26,6 +26,10 @@ If you are using Chef, there is now a [Chef
 cookbook](https://github.com/librato/collectd-librato-cookbook)
 available that will install and configure the collectd Librato plugin.
 
+## Using Ansible
+
+If you are using Ansible, Bruce Burgess has [added](https://github.com/iceburg-net/ansible-pcd/commit/c16eac4a8be47b96a9f3dce06c157e7baf70c24e) Librato collectd integration to their [ansible-pcd](https://github.com/iceburg-net/ansible-pcd) framework.
+
 ## RHEL / CentOS RPMs
 
 [Eric-Olivier Lamey](https://github.com/eolamey) provides RPM packages
