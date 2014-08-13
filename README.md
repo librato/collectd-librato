@@ -1,3 +1,14 @@
+# DEPRECATION NOTICE
+
+Librato now [provides native
+support](http://support.metrics.librato.com/knowledgebase/articles/38938-using-collectd-with-librato)
+for Collectd via the [Write HTTP plugin](https://collectd.org/wiki/index.php/Plugin:Write_HTTP)
+included in most distributions. This has many advantages over the legacy
+Python plugin including fewer dependencies (e.g. Python!) and much
+simpler configuration. It is now the recommended approach for system
+monitoring in Librato via Collectd. This plugin, while still functional,
+should be considered deprecated and not used in new deployments.
+
 # Introduction
 
 collectd-librato is a [collectd](http://www.collectd.org/) plugin that
