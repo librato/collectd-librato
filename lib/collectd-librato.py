@@ -28,7 +28,7 @@ from copy import copy
 
 # NOTE: This version is grepped from the Makefile, so don't change the
 # format of this line.
-version = "0.0.10"
+version = "0.0.11"
 
 config = { 'api_path' : '/v1/metrics',
            'api' : 'https://metrics-api.librato.com',
@@ -80,34 +80,35 @@ def sanitize_field(field):
 def librato_parse_types_file(path):
     global types
 
-    f = open(path, 'r')
-
-    for line in f:
-        fields = line.split()
-        if len(fields) < 2:
-            continue
-
-        type_name = fields[0]
-
-        if type_name[0] == '#':
-            continue
-
-        v = []
-        for ds in fields[1:]:
-            ds = ds.rstrip(',')
-            ds_fields = ds.split(':')
-
-            if len(ds_fields) != 4:
-                collectd.warning('%s: cannot parse data source ' \
-                                 '%s on type %s' %
-                                 (plugin_name, ds, type_name))
+    for p in path.split():
+        f = open(p, 'r')
+    
+        for line in f:
+            fields = line.split()
+            if len(fields) < 2:
                 continue
-
-            v.append(ds_fields)
-
-        types[type_name] = v
-
-    f.close()
+    
+            type_name = fields[0]
+    
+            if type_name[0] == '#':
+                continue
+    
+            v = []
+            for ds in fields[1:]:
+                ds = ds.rstrip(',')
+                ds_fields = ds.split(':')
+    
+                if len(ds_fields) != 4:
+                    collectd.warning('%s: cannot parse data source ' \
+                                     '%s on type %s' %
+                                     (plugin_name, ds, type_name))
+                    continue
+    
+                v.append(ds_fields)
+    
+            types[type_name] = v
+    
+        f.close()
 
 def build_user_agent():
     try:
