@@ -28,7 +28,7 @@ from copy import copy
 
 # NOTE: This version is grepped from the Makefile, so don't change the
 # format of this line.
-version = "0.0.11"
+version = "0.0.12"
 
 config = { 'api_path' : '/v1/metrics',
            'api' : 'https://metrics-api.librato.com',
@@ -80,7 +80,7 @@ def sanitize_field(field):
 def librato_parse_types_file(path):
     global types
 
-    for p in path.split():
+    for p in path:
         f = open(p, 'r')
     
         for line in f:
@@ -143,7 +143,7 @@ def librato_config(c):
         elif child.key == 'Api':
             config['api'] = val
         elif child.key == 'TypesDB':
-            config['types_db'] = val
+            config['types_db'] = val.split(',') if val else []
         elif child.key == 'MetricPrefix':
             config['metric_prefix'] = val
         elif child.key == 'MetricSeparator':
