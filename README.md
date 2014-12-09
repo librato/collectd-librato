@@ -164,9 +164,11 @@ The following parameters are required:
 The following parameters are optional:
 
 * `TypesDB` - file(s) defining your Collectd types. This should be the
-  sames as your TypesDB global config parameters. This will default to
-  the file `/usr/share/collectd/types.db`. **NOTE**: This plugin will
-  not work if it can't find the types.db file.
+  sames as your TypesDB global config parameters, but multiple values should
+  be separated by commas instead of spaces:
+  ```TypesDB "/usr/share/collectd/types.db,/my/custom/collectd_type.db"```
+  This will default to the file `/usr/share/collectd/types.db`. **NOTE**: 
+  This plugin will not work if it can't find the types.db file.
 
 * `LowercaseMetricNames` - If preset, all metric names will be converted
   to lower-case (default no lower-casing).
