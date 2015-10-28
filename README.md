@@ -1,7 +1,7 @@
 # DEPRECATION NOTICE
 
 Librato now [provides native
-support](http://support.metrics.librato.com/knowledgebase/articles/38938-using-collectd-with-librato)
+support](http://support.metrics.librato.com/knowledgebase/articles/749103-server-monitoring-with-librato-collectd)
 for Collectd via the [Write HTTP plugin](https://collectd.org/wiki/index.php/Plugin:Write_HTTP)
 included in most distributions. This has many advantages over the legacy
 Python plugin including fewer dependencies (e.g. Python!) and much
